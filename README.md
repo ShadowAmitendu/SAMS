@@ -38,15 +38,15 @@ The project is being designed around the following technologies:
 
 ## System Modules
 
-| Module | Description |
-| ------ | ----------- |
-| Authentication | User authentication and access management |
-| Student | Student registration and profile management |
-| Faculty | Faculty information and management |
-| Academic | Course, semester, and academic session management |
-| Attendance | QR-based attendance marking and record management |
-| Leave | Leave application and approval management |
-| Reports | Attendance records and percentage calculations |
+| Module         | Description                                       |
+| -------------- | ------------------------------------------------- |
+| Authentication | User authentication and access management         |
+| Student        | Student registration and profile management       |
+| Faculty        | Faculty information and management                |
+| Academic       | Course, semester, and academic session management |
+| Attendance     | QR-based attendance marking and record management |
+| Leave          | Leave application and approval management         |
+| Reports        | Attendance records and percentage calculations    |
 
 ## Attendance Mechanism
 
@@ -63,6 +63,55 @@ The project is being designed around the following technologies:
 SAMS uses MySQL as its relational database management system.
 
 The database is designed to maintain relationships between students, faculty, courses, semesters, attendance sessions, attendance records, and leave applications.
+
+## Local Development Setup
+
+Start MySQL, the Spring Boot backend, the FastAPI service, and the React frontend in separate terminals.
+
+### 1. Prepare MySQL
+
+Start your local MySQL server and create the SAMS database:
+
+```sql
+CREATE DATABASE IF NOT EXISTS sams;
+```
+
+The backend is currently configured for `localhost:3306`, database `sams`, username `root`, and password `root` in `backend/src/main/resources/application.properties`.
+
+### 2. Start the Spring Boot backend
+
+From the repository root, open a terminal and run:
+
+```powershell
+cd backend
+.\mvnw.cmd spring-boot:run
+```
+
+The backend health endpoint is [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health).
+
+### 3. Start the FastAPI service
+
+From a second terminal:
+
+```powershell
+cd python-service
+.\.venv\Scripts\Activate.ps1
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+The FastAPI health endpoint is [http://localhost:8000/health](http://localhost:8000/health).
+
+### 4. Start the React frontend
+
+From a third terminal:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite, usually [http://localhost:5173](http://localhost:5173). The frontend calls `/api/v1/health`; Vite forwards that request to Spring Boot on port 8080. `frontend/.env.example` contains the API base URL used by the frontend.
 
 ## Project Timeline
 
@@ -99,4 +148,4 @@ The licensing terms for this project will be specified in the repository.
 
 **SAMS – Smart Attendance Management System**
 
-*Making academic attendance management smarter, simpler, and more reliable.*
+_Making academic attendance management smarter, simpler, and more reliable._
